@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbitrary Barriers - Game Selection</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            background-color: #000;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+        }
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            background-color: #000;
+            width: 100%;
+            height: 80px;
+            box-sizing: border-box;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+        .header h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3em;
+            margin: 0;
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .header h1 .blue {
+            color: #6699ff;
+            text-shadow: 3px 3px 15px rgba(102, 153, 255, 1), 0 0 30px rgba(102, 153, 255, 1);
+        }
+        .header h1 .red {
+            color: #ff3333;
+            text-shadow: 3px 3px 15px rgba(255, 51, 51, 1), 0 0 30px rgba(255, 51, 51, 1);
+        }
+        .buttons-container {
+            display: flex;
+            gap: 20px;
+        }
+        .bounties-button {
+            margin-right: auto;
+        }
+        .game-cover {
+            width: 180px;
+            height: 180px;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border-radius: 10px;
+        }
+        .game-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 15px;
+            width: 220px;
+            height: 270px;
+            border-radius: 10px;
+            background-color: rgba(0, 0, 0, 0.7);
+            transition: transform 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+        .game-card:hover {
+            transform: scale(1.05);
+        }
+        .games-list {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 130px;
+            padding-bottom: 50px;
+        }
+        h2 {
+            font-family: 'Roboto', sans-serif;
+            font-size: 1.2em;
+            color: white;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+            margin: 0;
+            width: 100%;
+            box-sizing: border-box;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .header-button {
+            padding: 10px 20px;
+            font-size: 1em;
+            background-color: #333;
+            color: white;
+            border: 2px solid #666666;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(102, 153, 255, 0.5);
+            cursor: pointer;
+        }
+        .header-button:hover {
+            background-color: #555;
+            box-shadow: 0px 0px 10px rgba(102, 153, 255, 1);
+        }
+        select.category-dropdown {
+            padding: 10px;
+            font-size: 1em;
+            background-color: #333;
+            color: white;
+            border: 2px solid #666666;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(102, 153, 255, 0.5);
+            cursor: pointer;
+        }
+        select.category-dropdown:hover {
+            background-color: #555;
+            box-shadow: 0px 0px 10px rgba(102, 153, 255, 1);
+        }
+        .category-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        .category-button {
+            padding: 10px;
+            font-size: 1em;
+            background-color: #333;
+            color: white;
+            border: 2px solid #666666;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .category-button:hover {
+            background-color: #555;
+        }
+        .level-dropdown {
+            margin-top: 20px;
+            padding: 10px;
+            font-size: 1em;
+            background-color: #333;
+            color: white;
+            border: 2px solid #666666;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(102, 153, 255, 0.5);
+            cursor: pointer;
+        }
+        .level-dropdown:hover {
+            background-color: #555;
+            box-shadow: 0px 0px 10px rgba(102, 153, 255, 1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Static Header -->
+    <div class="header">
+        <button class="header-button bounties-button">Bounties</button>
+        <h1><a href="#" id="title-link"><span class="blue">Arbitrary</span> <span class="red">Barriers</span></a></h1>
+        <div class="buttons-container">
+            <button class="header-button">Log In</button>
+        </div>
+    </div>
+
+    <div class="games-list" id="games-list">
+        <!-- Game cards will be dynamically added here -->
+    </div>
+
+    <div id="category-button-section" style="display: none; margin-top: 20px; text-align: center;">
+        <select id="category-dropdown" class="category-dropdown" style="margin: 20px auto;">
+            <option value="">Select a Category</option>
+        </select>
+        <div class="category-buttons">
+            <button id="platform-button" class="category-button">Platform</button>
+            <button id="filters-button" class="category-button">Filters</button>
+            <button id="show-rules-button" class="category-button">Show Rules</button>
+            <button id="history-button" class="category-button">History</button>
+            <button id="submit-run-button" class="category-button">Submit Run</button>
+        </div>
+        <div id="level-dropdown-section" style="display: none;">
+            <select id="level-dropdown" class="level-dropdown">
+                <option value="">Select a Level</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="speedrun-section" style="display: none; margin-top: 100px; color: white; text-align: center;">
+        <h2>Speedrun Details</h2>
+        <!-- Placeholder for speedrun content -->
+        <div id="speedrun-content"></div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Add click event to title to show game list
+            const titleLink = document.getElementById('title-link');
+            titleLink.addEventListener('click', (event) => {
+                event.preventDefault();
+                console.log('Displaying game list...');
+                document.getElementById('games-list').style.display = 'flex';
+                document.getElementById('category-button-section').style.display = 'none';
+                document.getElementById('speedrun-section').style.display = 'none';
+            });
+
+            // Function to generate a random color
+            const getRandomColor = () => {
+                const letters = '0123456789ABCDEF';
+                let color = '#';
+                for (let i = 0; i < 6; i++) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            };
+
+            // List of games
+            const games = [
+                {
+                    name: 'Super Mario 64',
+                    slug: 'sm64'
+                },
+                {
+                    name: 'Mario Kart 64',
+                    slug: 'mk64'
+                },
+                {
+                    name: 'Donkey Kong 64',
+                    slug: 'dk64'
+                },
+                {
+                    name: 'Super Mario Odyssey',
+                    slug: 'smo'
+                },
+                {
+                    name: 'Modern Warfare Remastered',
+                    slug: 'modernwarfareremastered'
+                },
+                {
+                    name: 'Modern Warfare',
+                    slug: 'modernwarfare'
+                },
+                {
+                    name: 'Modern Warfare 2',
+                    slug: 'mw2'
+                },
+                {
+                    name: 'Modern Warfare 3',
+                    slug: 'mw3'
+                },
+                {
+                    name: 'MW2 Campaign Remastered',
+                    slug: 'mw2campaignremastered'
+                },
+                {
+                    name: 'Modern Warfare 2019',
+                    slug: 'mw2019'
+                },
+                {
+                    name: 'Modern Warfare II',
+                    slug: 'mwii'
+                },
+                {
+                    name: 'Modern Warfare III',
+                    slug: 'mwiii'
+                }
+            ];
+
+            const gamesListElement = document.getElementById('games-list');
+            // Function to load all games
+            const loadGames = async () => {
+    try {
+        console.log('Starting to load games...');
+                for (let i = 0; i < games.length; i++) {
+                    const game = games[i];
+                    try {
+                        // Fetch game data from speedrun.com API
+                        const response = await fetch(`https://www.speedrun.com/api/v1/games?name=${encodeURIComponent(game.name)}`);
+                        if (!response.ok) throw new Error(`Failed to fetch game: ${game.name}`);
+                        const data = await response.json();
+                        console.log('Game data fetched:', data);
+
+                        if (data.data.length > 0) {
+                            const gameId = data.data[0].id;
+                            const coverResponse = await fetch(`https://www.speedrun.com/api/v1/games/${gameId}`);
+                            if (!coverResponse.ok) throw new Error(`Failed to fetch game details: ${game.name}`);
+                            const gameData = await coverResponse.json();
+                            const coverUrl = gameData.data.assets['cover-medium']?.uri;
+
+                            // Ensure unique game data is used
+                            if (coverUrl) {
+                                // Create the game card element
+                                const gameCard = document.createElement('div');
+                                gameCard.className = 'game-card';
+                                gameCard.style.backgroundColor = getRandomColor(); // Set a random background color
+
+                                // Create the cover image element
+                                const imgElement = document.createElement('img');
+                                imgElement.className = 'game-cover';
+                                imgElement.alt = `Cover image for ${game.name}`;
+                                imgElement.src = coverUrl;
+
+                                // Create the title element
+                                const titleElement = document.createElement('h2');
+                                titleElement.textContent = game.name;
+
+                                // Append the elements to the game card
+                                gameCard.appendChild(imgElement);
+                                gameCard.appendChild(titleElement);
+
+                                // Add event listener for the game card
+                                gameCard.addEventListener('click', () => {
+                                    gamesListElement.style.display = 'none';
+                                    showCategoryButton(game, gameId);
+                                });
+
+                                // Append the game card to the games list
+                                gamesListElement.appendChild(gameCard);
+                        console.log(`Game card for ${game.name} added.`);
+                            } else {
+                                console.error(`Cover image not found for game: ${game.name}`);
+                            }
+                        } else {
+                            console.error(`Game not found: ${game.name}`);
+                        }
+                    } catch (error) {
+                        console.error(`Error fetching data for ${game.name}:`, error);
+                        alert(`Error fetching data for ${game.name}. Check console for details.`);
+                    }
+                }
+            };
+
+            // Load initial batch of games
+            loadGames();
+
+            // Function to show category dropdown and load categories for the game
+            const showCategoryButton = async (game, gameId) => {
+                const categoryButtonSection = document.getElementById('category-button-section');
+                const categoryDropdown = document.getElementById('category-dropdown');
+                const levelDropdownSection = document.getElementById('level-dropdown-section');
+                const levelDropdown = document.getElementById('level-dropdown');
+                categoryButtonSection.style.display = 'block';
+                categoryDropdown.innerHTML = '<option value="">Select a Category</option>'; // Reset dropdown
+                levelDropdownSection.style.display = 'none'; // Hide level dropdown initially
+                try {
+                    console.log('Fetching categories for game:', game.name);
+                    const categoryResponse = await fetch(`https://www.speedrun.com/api/v1/games/${gameId}/categories`);
+                    if (!categoryResponse.ok) throw new Error(`Failed to fetch categories for game: ${game.name}`);
+                    const categoryData = await categoryResponse.json();
+                    if (categoryData.data.length > 0) {
+                        categoryData.data.forEach(category => {
+                            const optionElement = document.createElement('option');
+                            optionElement.value = category.id;
+                            optionElement.textContent = category.name;
+                            categoryDropdown.appendChild(optionElement);
+                        });
+                        categoryDropdown.onchange = async () => {
+                            if (categoryDropdown.value) {
+                                document.getElementById('speedrun-section').style.display = 'block';
+                                loadSpeedrunSection(gameId, categoryDropdown.value);
+                                const selectedCategory = categoryData.data.find(cat => cat.id === categoryDropdown.value);
+                                if (selectedCategory && selectedCategory.type === "per-level") {
+                                    await loadLevelsForCategory(gameId, categoryDropdown.value);
+                                } else {
+                                    levelDropdownSection.style.display = 'none';
+                                }
+                            }
+                        };
+                    } else {
+                        console.error(`No categories found for game: ${game.name}`);
+                    }
+                } catch (error) {
+                    console.error(`Error fetching categories for ${game.name}:`, error);
+                }
+            };
+
+            // Function to load levels for a given category
+            const loadLevelsForCategory = async (gameId, categoryId) => {
+                const levelDropdownSection = document.getElementById('level-dropdown-section');
+                const levelDropdown = document.getElementById('level-dropdown');
+                levelDropdown.innerHTML = '<option value="">Select a Level</option>'; // Reset level dropdown
+                try {
+                    console.log('Fetching levels for game:', gameId);
+                const levelsResponse = await fetch(`https://www.speedrun.com/api/v1/games/${gameId}/levels`);
+                    if (!levelsResponse.ok) throw new Error(`Failed to fetch levels for game: ${gameId}`);
+                    const levelsData = await levelsResponse.json();
+                    if (levelsData.data.length > 0) {
+                        levelsData.data.forEach(level => {
+                            const optionElement = document.createElement('option');
+                            optionElement.value = level.id;
+                            optionElement.textContent = level.name;
+                            levelDropdown.appendChild(optionElement);
+                        });
+                        levelDropdownSection.style.display = 'block';
+                    } else {
+                        console.error(`No levels found for game: ${gameId}`);
+                    }
+                } catch (error) {
+                    console.error(`Error fetching levels for game ${gameId}:`, error);
+                }
+            };
+
+            // Function to load speedrun section
+            const loadSpeedrunSection = async (gameId, categoryId) => {
+                const speedrunSection = document.getElementById('speedrun-section');
+                const speedrunContent = document.getElementById('speedrun-content');
+                speedrunContent.innerHTML = `<p>Loading speedrun details...</p>`;
+                try {
+                    console.log('Fetching runs for category:', categoryId);
+                const runsResponse = await fetch(`https://www.speedrun.com/api/v1/leaderboards/${gameId}/category/${categoryId}?embed=players,category`);
+                    if (!runsResponse.ok) throw new Error(`Failed to fetch speedrun details for category: ${categoryId}`);
+                    let runsData = await runsResponse.json();
+                    if (!runsData.data || !runsData.data.runs) {
+                        console.error('No runs data available. Response:', runsData);
+                        speedrunContent.innerHTML = '<p>No runs data available for the selected category.</p>';
+                        return;
+                    }
+                    runsData = runsData.data.runs;
+                    runsData.sort((a, b) => a.run.times.primary_t - b.run.times.primary_t);
+                    if (runsData.length > 0) {
+                        speedrunContent.innerHTML = '<ul>' + runsData.map((run) => {
+                            const timeString = formatDuration(run.run.times.primary);
+                            const player = run.run.players.data && run.run.players.data.length > 0 ? run.run.players.data.find(p => p.rel === 'user') : null;
+                            const playerName = player && player.names ? player.names.international : 'Unknown Player';
+                            return `<li>Player: ${playerName}, Time: ${timeString}</li>`;
+                        }).join('') + '</ul>';
+                    } else {
+                        speedrunContent.innerHTML = '<p>No runs found for this category.</p>';
+                    }
+                    } else {
+                        speedrunContent.innerHTML = '<p>No runs found for this category.</p>';
+                    }
+                } catch (error) {
+                    console.error(`Error fetching runs for category ${categoryId}:`, error);
+                alert(`Error fetching runs for category. Check console for details.`);
+                    speedrunContent.innerHTML = '<p>Error loading speedrun details. Please try again later.</p>';
+                }
+            };
+
+            // Function to format the ISO 8601 duration string to hours, minutes, seconds
+            const formatDuration = (duration) => {
+                const regex = /PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+)S)?/;
+                const matches = duration.match(regex);
+                if (!matches) return duration;
+
+                const hours = matches[1] ? `${matches[1]}h ` : '';
+                const minutes = matches[2] ? `${matches[2]}m ` : '';
+                const seconds = matches[3] ? `${matches[3]}s` : '';
+
+                return `${hours}${minutes}${seconds}`.trim();
+            };
+
+            // Event listeners for category buttons
+            document.getElementById('platform-button').addEventListener('click', () => {
+                alert('Platform filter functionality will be implemented here.');
+            });
+
+            document.getElementById('filters-button').addEventListener('click', () => {
+                alert('Filters functionality will be implemented here.');
+            });
+
+            document.getElementById('show-rules-button').addEventListener('click', async () => {
+                try {
+                    const categoryId = document.getElementById('category-dropdown').value;
+                    if (!categoryId) throw new Error('No category selected.');
+                    const rulesResponse = await fetch(`https://www.speedrun.com/api/v1/categories/${categoryId}`);
+                    if (!rulesResponse.ok) throw new Error('Failed to fetch category rules.');
+                    const rulesData = await rulesResponse.json();
+                    const rules = rulesData.data.rules || 'No rules available for this category.';
+                    alert(`Category Rules: ${rules}`);
+                } catch (error) {
+                    console.error('Error fetching rules:', error);
+                    alert('Error fetching category rules. Please try again.');
+                }
+            });
+
+            document.getElementById('history-button').addEventListener('click', () => {
+                alert('History functionality will be implemented here.');
+            });
+
+            document.getElementById('submit-run-button').addEventListener('click', () => {
+                alert('Submit run functionality will be implemented here.');
+            });
+        });
+    </script>
+</body>
+</html>

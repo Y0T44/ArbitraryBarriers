@@ -1,0 +1,166 @@
+/* Ensure Orbitron and Roboto fonts are loaded */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Roboto:wght@400&display=swap');
+
+/* Remove any margin or padding from the body and html */
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Header styling */
+#header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background-color: #000;
+    width: 100%;
+    height: 80px;
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Ensure content starts below the header */
+body {
+    padding-top: 80px;
+}
+
+/* Button styles (Bounty and Log In) */
+.header-button {
+    padding: 10px 30px;
+    font-size: 1.2em;
+    background-color: #333;
+    color: white;
+    border: 2px solid #666666;
+    border-radius: 5px;
+    box-shadow: 0px 0px 5px rgba(102, 153, 255, 0.5);
+    cursor: pointer;
+    width: 200px;
+}
+
+.header-button:hover {
+    background-color: #555;
+    box-shadow: 0px 0px 10px rgba(102, 153, 255, 1);
+}
+
+/* Centered title styling */
+.titleDiv {
+    flex-grow: 1;
+    text-align: center;
+}
+
+.titleDiv h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 3.5em;
+    margin: 0;
+}
+
+.titleDiv h1 .blue {
+    color: #6699ff;
+    text-shadow: 3px 3px 15px rgba(102, 153, 255, 1), 0 0 30px rgba(102, 153, 255, 1);
+}
+
+.titleDiv h1 .red {
+    color: #ff3333;
+    text-shadow: 3px 3px 15px rgba(255, 51, 51, 1), 0 0 30px rgba(255, 51, 51, 1);
+}
+
+/* Games grid styling */
+.games-list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 50px;
+    gap: 20px;
+}
+
+.game-card {
+    padding: 15px;
+    width: 200px;
+    height: 200px;
+    border-radius: 10px;
+    text-align: center;
+    cursor: pointer;
+    flex: 0 1 calc(25% - 40px);
+    box-sizing: border-box;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform 0.3s ease;
+    transform: scale(1);
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.game-card:hover {
+    transform: scale(1.05); /* Scaling effect */
+}
+
+/* Text formatting */
+.game-card h2 {
+    position: relative;
+    z-index: 2;
+    color: #fff;
+    margin-top: 10px;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px;
+    font-family: 'Roboto', sans-serif;
+    text-decoration: none;
+}
+
+/* Game cover styling */
+.game-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+/* Glowing gradient styles */
+.game-card:nth-child(1) { /* SM64 */
+    background: linear-gradient(145deg, #ff3333, #ff6666);
+    box-shadow: 0px 0px 15px #ff6666;
+}
+
+.game-card:nth-child(2) { /* MK64 */
+    background: linear-gradient(145deg, #6699ff, #66ccff);
+    box-shadow: 0px 0px 15px #66ccff;
+}
+
+.game-card:nth-child(3) { /* DK64 */
+    background: linear-gradient(145deg, #33cc33, #66ff66);
+    box-shadow: 0px 0px 15px #66ff66;
+}
+
+.game-card:nth-child(4) { /* SMO */
+    background: linear-gradient(145deg, #FFD700, #FFEC8B);
+    box-shadow: 0px 0px 15px #FFEC8B;
+}
+
+/* Pink for MW Remastered and MW2 Campaign Remastered */
+.game-card:nth-child(5),
+.game-card:nth-child(9) {
+    background: linear-gradient(145deg, #ff99cc, #ff66cc);
+    color: #fff;
+    box-shadow: 0px 0px 15px #ff66cc;
+}
+
+/* Black for MW2019, MWII, MWIII */
+.game-card:nth-child(10),
+.game-card:nth-child(11),
+.game-card:nth-child(12) {
+    background: linear-gradient(145deg, #000, #333);
+    color: #fff;
+    box-shadow: 0px 0px 15px #333;
+}
+
+/* White background for other CODs */
+.game-card:nth-child(6),
+.game-card:nth-child(7),
+.game-card:nth-child(8) {
+    background: #fff;
+    color: #000;
+    box-shadow: 0px 0px 5px #ccc;
+}

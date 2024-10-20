@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbitrary Barriers - Header</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000000;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        /* Header styling */
+        #header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #000;
+            width: 100%;
+            height: 100px; /* Adjusted header height */
+            padding: 20px 40px;
+            box-sizing: border-box;
+        }
+
+        /* Button styles (shared) */
+        .header-button {
+            font-size: 1.2em;
+            background-color: #333;
+            color: white;
+            border: 2px solid #666666;
+            border-radius: 5px;
+            box-shadow: 0px 0px 5px rgba(102, 153, 255, 0.5);
+            cursor: pointer;
+            margin-left: 20px;
+            margin-right: 20px;
+            width: 220px; /* Made buttons wider */
+        }
+
+        .header-button:hover {
+            background-color: #555;
+            box-shadow: 0px 0px 10px rgba(102, 153, 255, 1);
+        }
+
+        /* Centered title styling */
+        .titleDiv {
+            flex: 2;
+            text-align: center;
+        }
+
+        .titleDiv h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: #6699ff;
+            text-shadow: 3px 3px 15px rgba(102, 153, 255, 1), 0 0 30px rgba(102, 153, 255, 1);
+            font-size: 3.5em;
+            margin: 0;
+            transform: translateY(-10px); /* Moved the logo slightly up */
+        }
+
+        .titleDiv h1 .red {
+            color: #ff3333;
+            text-shadow: 3px 3px 15px rgba(255, 51, 51, 1), 0 0 30px rgba(255, 51, 51, 1);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="header">
+        <button class="header-button">Bounties</button>
+        <div class="titleDiv">
+            <h1>
+                <a href="index.html" style="text-decoration: none;">
+                    <span class="blue">Arbitrary</span>
+                    <span class="red">Barriers</span>
+                </a>
+            </h1>
+        </div>
+        <button class="header-button">Log In</button>
+    </div>
+
+</body>
+</html>
