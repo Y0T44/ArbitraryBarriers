@@ -1,0 +1,3 @@
+deployment:
+  tasks:
+    - git --work-tree=/home/comdatca/public_html --git-dir=/home/comdatca/repositories/ArbitraryBarriers/.git checkout -f
